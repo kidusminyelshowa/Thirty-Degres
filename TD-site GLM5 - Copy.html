@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thirty Degres | Building Brands </title>
+  <link rel="icon" type="image/svg+xml" href="./SVG/TD-Favicon.svg">
+  <style>
+    @font-face {
+      font-family: 'Loos Normal';
+      src: url('./Loos Normal Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Loos Normal';
+      src: url('./Loos Normal Bold.otf') format('opentype');
+      font-weight: 600;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Loos Normal';
+      src: url('./Loos Normal Bold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    :root {
+      --bg: #f6f9f7;
+      --fg: #022018;
+      --muted: rgba(2, 32, 24, 0.6);
+      --accent: #01803B;
+      --active: #D1F811;
+      --card: rgba(2, 32, 24, 0.03);
+      --border: rgba(2, 32, 24, 0.08);
+      --sans: 'Loos Normal', -apple-system, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.4;
+      font-weight: 400;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      width: 12px;
+      height: 15px;
+      background: var(--accent);
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, background 0.3s, opacity 0.3s;
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 104.42 129.11'%3E%3Cpolygon points='0 129.11 0 33.53 19.37 0 104.42 0 104.42 95.57 85.06 129.11 0 129.11'/%3E%3C/svg%3E");
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 104.42 129.11'%3E%3Cpolygon points='0 129.11 0 33.53 19.37 0 104.42 0 104.42 95.57 85.06 129.11 0 129.11'/%3E%3C/svg%3E");
+      -webkit-mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+    }
+
+    ::selection {
+      background: var(--active);
+      color: var(--fg);
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      backdrop-filter: none;
+      border-bottom: 1px solid transparent;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, padding 0.4s ease;
+    }
+
+    header.scrolled {
+      background: rgba(246, 249, 247, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+    }
+
+    .logo {
+      height: 35px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo svg {
+      height: 100%;
+      width: auto;
+    }
+
+    .logo .st0-poly {
+      fill: var(--fg);
+    }
+
+    .logo .st0-text {
+      fill: #ffffff;
+      transition: fill 0.4s ease;
+    }
+
+    header.scrolled .logo .st0-text {
+      fill: var(--fg);
+    }
+
+    .logo .st1 {
+      fill: var(--active);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .start-project-btn {
+      background: var(--active);
+      color: #000000;
+      padding: 0.8rem 1.5rem;
+      border-radius: 100px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+      border: 1px solid var(--active);
+    }
+
+    .start-project-btn:hover {
+      background: none;
+      color: var(--bg);
+      border-color: var(--bg);
+      transform: scale(1.05);
+    }
+
+    header.scrolled .start-project-btn:hover {
+      color: var(--fg);
+      border-color: var(--fg);
+    }
+
+    /* Inquiry Form Overlay */
+    .inquiry-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      z-index: 3000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+      padding: 10rem 2rem 5rem;
+    }
+
+    .inquiry-overlay.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .inquiry-inner {
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .inquiry-form h2 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      margin-bottom: 3rem;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      color: var(--muted);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 1rem 0;
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--fg);
+      font-family: var(--sans);
+      font-size: 1.25rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--fg);
+    }
+
+    .submit-btn {
+      background: none;
+      border: none;
+      color: var(--fg);
+      padding: 4rem 0;
+      font-size: clamp(2rem, 8vw, 5rem);
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 4rem;
+      transition: opacity 0.3s;
+      font-family: var(--sans);
+    }
+
+    .submit-btn:hover {
+      opacity: 0.6;
+    }
+
+    .submit-btn span {
+      font-size: 0.8em;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .submit-btn:hover span {
+      transform: translateX(20px);
+    }
+
+    .close-inquiry {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--fg);
+      font-family: var(--sans);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      color: #ffffff;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('./Gemini_Generated_Image_bfmi12bfmi12bfmi.png') center/cover no-repeat;
+      filter: blur(12px) brightness(0.7);
+      transform: scale(1.4);
+      z-index: -1;
+    }
+
+    .hero-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-family: var(--sans);
+      font-size: clamp(2.5rem, 12vw, 8rem);
+      font-weight: 500;
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .hero h1 span.accent {
+      color: var(--active);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 1400px;
+      margin: 1.25rem auto 0;
+      line-height: 1.2;
+    }
+
+    /* Projects Section */
+    .projects {
+      padding: 0;
+      width: 100%;
+    }
+
+    .project-item {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .project-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120%;
+      /* For parallax */
+      z-index: -1;
+      will-change: transform;
+    }
+
+    .project-bg img,
+    .project-bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.95);
+      transition: filter 0.6s ease;
+    }
+
+    .project-item:hover .project-bg img,
+    .project-item:hover .project-bg video {
+      filter: brightness(1);
+    }
+
+    .project-content {
+      padding: 4rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      z-index: 10;
+    }
+
+    .project-info h2 {
+      font-size: clamp(2.5rem, 10vw, 7rem);
+      font-weight: 500;
+      letter-spacing: -0.05em;
+      line-height: 0.85;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      color: #f6f9f7;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .project-meta {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.9rem;
+      color: rgba(246, 249, 247, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* About Section */
+    .about {
+      padding: 15rem 2rem;
+      background: var(--bg);
+    }
+
+    .about-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about h2 {
+      font-size: clamp(2rem, 6vw, 5rem);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      margin-bottom: 6rem;
+      max-width: 900px;
+      text-transform: uppercase;
+    }
+
+    /* Info Accordion */
+    .accordion-item {
+      border-top: 1px solid var(--border);
+    }
+
+    .accordion-item:last-child {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .accordion-header {
+      width: 100%;
+      padding: 3.5rem 0;
+      background: none;
+      border: none;
+      color: var(--fg);
+      font-size: clamp(1.25rem, 3vw, 2.5rem);
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+      font-family: var(--sans);
+    }
+
+    .accordion-header span.icon {
+      font-size: 1.5rem;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .accordion-item.is-open .icon {
+      transform: rotate(45deg);
+      color: var(--accent);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    .accordion-content-inner {
+      padding-bottom: 3.5rem;
+      color: var(--muted);
+      max-width: 700px;
+      font-size: 1.25rem;
+      line-height: 1.4;
+    }
+
+    .accordion-item.is-open .accordion-content {
+      max-height: 800px;
+    }
+
+    /* Contact */
+    .contact {
+      padding: 10rem 2rem;
+      text-align: center;
+    }
+
+    .contact h2 {
+      font-size: clamp(3rem, 15vw, 12rem);
+      margin-bottom: 6rem;
+      letter-spacing: -0.06em;
+      line-height: 0.8;
+      text-transform: uppercase;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: clamp(2rem, 5vw, 6rem);
+      flex-wrap: wrap;
+    }
+
+    .contact-links a {
+      color: var(--fg);
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s, opacity 0.3s;
+      opacity: 0.6;
+    }
+
+    .contact-links a:hover {
+      border-color: var(--accent);
+      opacity: 1;
+    }
+
+    footer {
+      padding: 5rem 2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-logo-sq {
+      height: clamp(4rem, 18vw, 15rem);
+      display: flex;
+      align-items: flex-end;
+      opacity: 1;
+    }
+
+    .footer-logo-sq svg {
+      height: 100%;
+      width: auto;
+    }
+
+    .footer-logo-sq .st0 {
+      fill: var(--accent);
+    }
+
+    .footer-logo-sq .st1 {
+      fill: var(--fg);
+    }
+
+    .footer-logo-sq .st2 {
+      fill: var(--active);
+    }
+
+    /* Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .project-content {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2rem;
+      }
+
+      .project-meta {
+        margin-top: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cursor"></div>
+
+  <header>
+    <div class="logo">
+      <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 318.4 89.3">
+        <g>
+          <polygon class="st0-poly" points="0 89.3 0 23.2 13.4 0 72.2 0 72.2 66.1 58.8 89.3 0 89.3" />
+          <path class="st1"
+            d="M63.4,35.3c-1.1-1.6-2.8-2.5-5.2-2.5s-6.7,0-6.7,0c0,0-3.6,0-6.7,0-4.6,0-6.7,3.3-6.7,8.4,0,10.5,7.3,15.2,13.3,15.2s9.5-2.6,11.9-8v15.3l-9.7,16.8h-31.5l13.8-23.9h-18.5c0,0,13.8-23.8,13.8-23.8H8.8c0,0,0,0,0-.1v-7.1l9.7-16.8h45v26.5h0Z" />
+        </g>
+        <g id="Layer_1-2">
+          <g>
+            <path class="st0-text" d="M116.9,8.8v7.9h-13.4v23.9h-9.7v-24h-13.4v-7.8h36.5Z" />
+            <path class="st0-text"
+              d="M130.4,8.8v11.6h16.2v-11.6h9.7v31.8h-9.7v-12.3h-16.2v12.3h-9.7V8.8s9.7,0,9.7,0Z" />
+            <path class="st0-text" d="M186.5,8.8v7.9h-7.7v16h7.7v7.9h-25v-7.9h7.7v-16.1h-7.7v-7.8h25Z" />
+            <path class="st0-text"
+              d="M215.6,8.8c7.2,0,11.2,4.1,11.2,9.7v1.5c0,3.9-2,7.1-5.4,8.7l6.7,11.9h-10.7l-6.1-10.8h-10v10.8h-9.7V8.8h24ZM201.4,22.2h12c2.5,0,3.6-.9,3.6-2.8v-.6c0-1.7-1.1-2.8-3.6-2.8h-12v6.2Z" />
+            <path class="st0-text" d="M266.2,8.8v7.9h-13.4v23.9h-9.7v-24h-13.4v-7.8h36.5,0Z" />
+            <path class="st0-text" d="M278.4,8.8l9,10.9h2.1l8.6-10.9h10.1l-15,19.3v12.5h-9.6v-12.5l-16.1-19.3h10.9Z" />
+            <path class="st0-text"
+              d="M102,48.2c10.6,0,17.2,4,17.2,14.2v3.6c0,9.9-6.4,13.9-17.2,13.9h-19.5v-31.8h19.5ZM92.2,72.1h9.9c5.6,0,7.3-2,7.3-6.1v-3.7c0-4.2-1.8-6.3-7.3-6.3h-9.9v16h0Z" />
+            <path class="st0-text" d="M156.4,48.2v7.7h-22.3v4.3h19.8v7.2h-19.8v4.9h22.5v7.7h-32.2v-31.8s32,0,32,0Z" />
+            <path class="st0-text"
+              d="M180.8,47.7c10.7,0,17.7,4.5,17.7,12.7v.5h-9.8v-.5c0-2.4-2.4-4.4-8-4.4h-1.9c-5.4,0-8.1,2.3-8.1,6.2v3.7c0,4.2,2.7,6.2,8.1,6.2h1.9c5.6,0,8.1-1.9,8.1-4.9v-.7h9.9v13.5h-8.1v-3h-1.6c-2.4,2.3-5.8,3.5-10,3.5h-1.9c-9.2,0-16.3-4.7-16.3-14.6v-3.7c0-9.8,7.7-14.5,17.9-14.5h2.1Z" />
+            <path class="st0-text"
+              d="M228.4,48.2c7.2,0,11.2,4.1,11.2,9.7v1.5c0,3.9-2,7.1-5.4,8.7l6.7,11.9h-10.7l-6.1-10.8h-10v10.8h-9.7v-31.8h24ZM214.2,61.7h12c2.5,0,3.6-.9,3.6-2.8v-.6c0-1.7-1.1-2.8-3.6-2.8h-12s0,6.2,0,6.2Z" />
+            <path class="st0-text" d="M276.8,48.2v7.7h-22.3v4.3h19.8v7.2h-19.8v4.9h22.5v7.7h-32.2v-31.8s32,0,32,0Z" />
+            <path class="st0-text"
+              d="M299.3,47.7c10,0,16.5,3.4,16.5,10.6v.8h-9.3v-.8c0-2.7-2.9-3.4-7.3-3.4h-1.1c-4.6,0-7.4.7-7.4,2.1v.4c0,1.8,1.8,2.2,11.2,3.3,10.2,1.2,14.5,4,14.5,9.5v.5c0,5.9-5.7,9.7-16.9,9.7h-1.2c-11.6,0-17.4-3.9-17.4-11.1v-.7h9.2v.7c0,3.2,2.9,3.8,8.2,3.8h1.1c4.7,0,7.5-.6,7.5-2.3v-.4c0-1.8-2.6-2.2-11.4-3.2-9.4-.9-14.2-3.7-14.2-9.4v-.4c0-6.4,6.4-9.8,16.7-9.8h1.3Z" />
+            <path class="st0-text"
+              d="M313.7,8.8v.7h-1.1v3.3h-.8v-3.4h-1.3v-.6h3.2,0ZM315.5,8.8l.9,1.9h.2l.8-1.9h1v4h-.8v-2.8h-.2l-.8,1.8h-.6l-.9-1.8h-.2v2.7h-.8v-3.9h1.4Z" />
+          </g>
+        </g>
+      </svg>
+    </div>
+    <nav>
+      <a href="#" class="start-project-btn" id="open-inquiry">Start a project</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <h1 class="reveal">We Build Brands<br>With <span class="accent">Consequence</span></h1>
+        <p class="hero-sub reveal">Identity systems shaped by culture, sharpened by strategy, built for measurable
+          growth.</p>
+      </div>
+    </section>
+
+    <section id="projects" class="projects">
+      <!-- Project 1: Samsung -->
+      <a href="#" class="project-item" data-id="samsung">
+        <div class="project-bg">
+          <video src="https://framerusercontent.com/assets/9HOmhgCUWF44R4Otq9HXtjQzEw.mp4" autoplay loop muted
+            playsinline></video>
+        </div>
+        <div class="project-content">
+          <div class="project-info">
+            <h2 class="reveal">Samsung</h2>
+            <div class="project-meta reveal">
+              <span>Digital Motion</span>
+              <span class="project-year">2024</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Project 2: Moschino SS23 -->
+      <a href="#" class="project-item" data-id="moschino">
+        <div class="project-bg">
+          <img src="https://framerusercontent.com/images/8edIeAdBMhARHQiaK7W5Gbt6jw.png?width=972&height=604"
+            alt="Moschino SS23">
+        </div>
+        <div class="project-content">
+          <div class="project-info">
+            <h2 class="reveal">Moschino</h2>
+            <div class="project-meta reveal">
+              <span>Art Direction</span>
+              <span class="project-year">SS23</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Project 3: Mastercard -->
+      <a href="#" class="project-item" data-id="mastercard">
+        <div class="project-bg">
+          <video src="https://framerusercontent.com/assets/ytNDN4mQrzpvaGcXXIcJw9l1DU.mp4" autoplay loop muted
+            playsinline></video>
+        </div>
+        <div class="project-content">
+          <div class="project-info">
+            <h2 class="reveal">Mastercard</h2>
+            <div class="project-meta reveal">
+              <span>Brand Experience</span>
+              <span class="project-year">2023</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Project 4: N.I.C.E. Collective -->
+      <a href="#" class="project-item" data-id="nice">
+        <div class="project-bg">
+          <img src="https://framerusercontent.com/images/oa4uEa1Rh8i3lZzI2pN5sWVghLA.png?width=1600&height=1000"
+            alt="N.I.C.E. Collective">
+        </div>
+        <div class="project-content">
+          <div class="project-info">
+            <h2 class="reveal">N.I.C.E.</h2>
+            <div class="project-meta reveal">
+              <span>Identity Design</span>
+              <span class="project-year">2023</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Project 5: Fanta -->
+      <a href="#" class="project-item" data-id="fanta">
+        <div class="project-bg">
+          <img src="https://framerusercontent.com/images/bZCEl58aAanwwKr5unVDEgFlAII.jpeg?width=1000" alt="Fanta">
+        </div>
+        <div class="project-content">
+          <div class="project-info">
+            <h2 class="reveal">Fanta</h2>
+            <div class="project-meta reveal">
+              <span>Campaign Design</span>
+              <span class="project-year">2024</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <section id="about" class="about">
+      <div class="about-inner">
+        <h2 class="reveal">We partner with ambitious brands that believe identity is not just decoration.</h2>
+
+        <div class="services-accordion">
+          <div class="accordion-item reveal">
+            <button class="accordion-header">
+              Visual Identity
+              <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                From logo suites to comprehensive design systems, we craft visual languages that resonate across all
+                touchpoints.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item reveal">
+            <button class="accordion-header">
+              Digital Design
+              <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                Immersive websites and applications that prioritize user experience and high-end aesthetics.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item reveal">
+            <button class="accordion-header">
+              Type Design
+              <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                Custom typefaces that give brands a unique, proprietary voice and unmatched typographic character.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2 class="reveal"><a href="#" class="open-inquiry-trigger" style="color: inherit; text-decoration: none;">Start a
+          project</a></h2>
+      <div class="contact-links reveal">
+        <a href="mailto:hello@thirtydegres.com">hello@thirtydegres.com</a>
+        <a href="https://instagram.com/thirtydegres" target="_blank">Instagram</a>
+        <a href="https://linkedin.com/company/thirty-degres" target="_blank">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>© 2026 Thirty Degres</div>
+    <div class="footer-logo-sq">
+      <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 175.5 195.8">
+        <g>
+          <polygon class="st1" points="35.2 162.6 35.2 67.1 54.6 33.5 139.6 33.5 139.6 129.1 120.3 162.6 35.2 162.6" />
+          <path class="st2"
+            d="M126.9,84.6c-1.6-2.4-4.1-3.7-7.6-3.7s-9.6-.1-9.6-.1c0,0-5.2.1-9.6.1-6.6,0-9.6,4.8-9.6,12.2,0,15.1,10.6,22,19.2,22s13.7-3.7,17.2-11.6v22.1l-14,24.2h-45.5l20-34.6h-26.7c0,0,19.9-34.4,19.9-34.4h-32.7c0,0,0-.1,0-.2v-10.3l14-24.2h65v38.4h0Z" />
+        </g>
+        <g>
+          <path class="st0"
+            d="M27.7,28.4h0c1,0,1.9.8,1.9,1.9v10.2c0,1-.8,1.9-1.9,1.9h0c-1,0-1.9-.8-1.9-1.9v-10.2c0-1,.8-1.9,1.9-1.9Z" />
+          <path class="st0"
+            d="M22.1,28.4h0c1,0,1.9.8,1.9,1.9v10.2c0,1-.8,1.9-1.9,1.9h0c-1,0-1.9-.8-1.9-1.9v-10.2c0-1,.8-1.9,1.9-1.9Z" />
+          <path class="st0"
+            d="M16.5,28.4h0c1,0,1.9.8,1.9,1.9v10.2c0,1-.8,1.9-1.9,1.9h0c-1,0-1.9-.8-1.9-1.9v-10.2c0-1,.8-1.9,1.9-1.9Z" />
+        </g>
+        <g>
+          <path class="st1" d="M59.1,0v3.8h-6.6v11.7h-4.7V3.8h-6.6V0h17.9Z" />
+          <path class="st1" d="M65.7,0v5.7h7.9V0h4.7v15.6h-4.7v-6h-7.9v6h-4.7V0h4.7Z" />
+          <path class="st1" d="M93.2,0v3.8h-3.8v7.8h3.8v3.9h-12.2v-3.9h3.8V3.8h-3.8V0h12.2Z" />
+          <path class="st1"
+            d="M107.4,0c3.5,0,5.5,2,5.5,4.7v.7c0,1.9-1,3.5-2.6,4.2l3.3,5.8h-5.2l-3-5.3h-4.9v5.3h-4.7V0h11.7ZM100.5,6.6h5.9c1.2,0,1.8-.4,1.8-1.3v-.3c0-.8-.6-1.4-1.8-1.4h-5.9v3Z" />
+          <path class="st1" d="M132.2,0v3.8h-6.6v11.7h-4.7V3.8h-6.6V0h17.9Z" />
+          <path class="st1" d="M138.2,0l4.4,5.3h1l4.2-5.3h4.9l-7.4,9.4v6.1h-4.7v-6.1l-7.8-9.4h5.3Z" />
+          <path class="st1"
+            d="M175.3,29.1c0,5.2-1.9,8.4-6.9,8.4h-1.8c-4.9,0-6.8-3.1-6.8-8.4v-9.6h15.6s0,9.6,0,9.6ZM163.6,24.2v4.8c0,2.7,1,3.6,3,3.6h1.8c2.1,0,3.1-.9,3.1-3.6v-4.8h-7.8Z" />
+          <path class="st1" d="M175.3,55.7h-3.8v-10.9h-2.1v9.7h-3.5v-9.7h-2.4v11h-3.8v-15.8h15.6v15.6h0Z" />
+          <path class="st1"
+            d="M175.5,67.6c0,5.2-2.2,8.7-6.2,8.7h-.2v-4.8h.2c1.2,0,2.1-1.2,2.1-3.9v-.9c0-2.7-1.1-4-3-4h-1.8c-2,0-3,1.3-3,4v.9c0,2.7.9,4,2.4,4h.4v4.8h-6.6v-4h1.5v-.8c-1.1-1.2-1.7-2.8-1.7-4.9v-.9c0-4.5,2.3-8,7.1-8h1.8c4.8,0,7.1,3.8,7.1,8.8v.9h0Z" />
+          <path class="st1"
+            d="M175.3,90.9c0,3.5-2,5.5-4.7,5.5h-.7c-1.9,0-3.5-1-4.2-2.6l-5.8,3.3v-5.2l5.3-3v-4.9h-5.3v-4.7h15.6v11.7ZM168.7,84v5.9c0,1.2.4,1.8,1.4,1.8h.3c.8,0,1.4-.6,1.4-1.8v-5.9h-3Z" />
+          <path class="st1" d="M175.3,114.6h-3.8v-10.9h-2.1v9.7h-3.5v-9.7h-2.4v11h-3.8v-15.8h15.6v15.6h0Z" />
+          <path class="st1"
+            d="M175.5,125.6c0,4.9-1.6,8.1-5.2,8.1h-.4v-4.6h.4c1.3,0,1.7-1.4,1.7-3.6v-.6c0-2.2-.4-3.6-1-3.6h-.2c-.9,0-1.1.9-1.6,5.5-.6,5-1.9,7.1-4.7,7.1h-.2c-2.9,0-4.8-2.8-4.8-8.3v-.6c0-5.7,1.9-8.5,5.4-8.5h.4v4.5h-.4c-1.6,0-1.9,1.4-1.9,4v.6c0,2.3.3,3.7,1.1,3.7h.2c.9,0,1.1-1.2,1.6-5.6.5-4.6,1.8-6.9,4.6-6.9h.2c3.1,0,4.8,3.1,4.8,8.2v.6h0Z" />
+        </g>
+        <g>
+          <path class="st1"
+            d="M15.8,74.1c0,5.2-1.9,8.4-6.9,8.4h-1.8c-4.8,0-6.8-3.1-6.8-8.4v-9.6h15.6s0,9.6,0,9.6ZM4.1,69.3v4.8c0,2.7,1,3.6,3,3.6h1.8c2.1,0,3.1-.9,3.1-3.6v-4.8h-7.9Z" />
+          <path class="st1" d="M15.8,100.7h-3.8v-10.9h-2.1v9.7h-3.5v-9.7h-2.4v11H.2v-15.8h15.5v15.6h0Z" />
+          <path class="st1"
+            d="M16,111.8c0,4.9-1.6,8.1-5.2,8.1h-.4v-4.6h.4c1.3,0,1.7-1.4,1.7-3.6v-.6c0-2.2-.4-3.6-1-3.6h-.2c-.9,0-1.1.9-1.6,5.5-.6,5-1.9,7.1-4.7,7.1h-.2C1.9,120.1,0,117.3,0,111.9v-.6c0-5.7,1.9-8.5,5.4-8.5h.3v4.5h-.3c-1.5,0-1.9,1.4-1.9,4v.6c0,2.3.3,3.7,1.1,3.7h.2c.9,0,1.1-1.2,1.5-5.6.5-4.6,1.8-6.9,4.6-6.9h.2c3.1,0,4.8,3.1,4.8,8.2v.6h0Z" />
+          <path class="st1" d="M15.8,134.3h-3.8v-3.8h-7.8v3.8H.2v-12.2h3.8v3.8h7.8v-3.8h3.9v12.2h0Z" />
+          <path class="st1"
+            d="M16,146.1c0,5.2-2.2,8.7-6.2,8.7h-.2v-4.8h.2c1.2,0,2.1-1.2,2.1-3.9v-.9c0-2.6-1.1-3.9-3-3.9h-1.8c-2,0-3,1.3-3,4v.9c0,2.7.9,4,2.4,4h.3v4.9H.2v-4h1.5v-.8c-1.1-1.2-1.7-2.9-1.7-4.9v-.9c0-4.5,2.3-8,7.1-8h1.8c4.8,0,7.1,3.8,7.1,8.8v.9h0Z" />
+          <path class="st1" d="M15.8,163.8l-9.7,7.2v.6h9.7v4.4H.2v-6.1l9.7-7.2v-.6H.2v-4.4h15.5v6.1Z" />
+          <path class="st1"
+            d="M29.8,179.7c4.9,0,8.1,1.6,8.1,5.2v.4h-4.5v-.4c0-1.3-1.4-1.7-3.6-1.7h-.6c-2.2,0-3.6.4-3.6,1v.2c0,.9.9,1.1,5.5,1.6,5,.6,7.1,1.9,7.1,4.7v.2c0,2.9-2.8,4.8-8.3,4.8h-.6c-5.7,0-8.5-1.9-8.5-5.4v-.4h4.5v.4c0,1.6,1.4,1.9,4,1.9h.6c2.3,0,3.7-.3,3.7-1.1v-.2c0-.9-1.2-1.1-5.6-1.6-4.6-.5-6.9-1.8-6.9-4.6v-.2c0-3.1,3.1-4.8,8.2-4.8h.6,0Z" />
+          <path class="st1" d="M57.1,180v3.9h-6.6v11.7h-4.7v-11.7h-6.6v-3.9h17.9Z" />
+          <path class="st1"
+            d="M63.4,180v8.5c0,2.1,1,3.1,3.7,3.1h.7c2.8,0,3.7-1,3.7-3.1v-8.5h4.7v8.5c0,5.2-3.4,7.2-8.5,7.2h-.7c-5,0-8.5-2-8.5-7.2v-8.5h4.7Z" />
+          <path class="st1"
+            d="M88.6,180c5.2,0,8.4,1.9,8.4,6.9v1.8c0,4.9-3.1,6.8-8.4,6.8h-9.6v-15.6h9.6ZM83.8,191.7h4.8c2.7,0,3.6-1,3.6-3v-1.8c0-2.1-.9-3.1-3.6-3.1h-4.8v7.8h0Z" />
+          <path class="st1" d="M111.1,180v3.9h-3.8v7.8h3.8v3.9h-12.2v-3.9h3.8v-7.8h-3.8v-3.9h12.2Z" />
+          <path class="st1"
+            d="M123.3,179.7c5.1,0,9.1,2.5,9.1,7.1v1.9c0,4.6-4,7.1-9.1,7.1h-.9c-5.2,0-9.3-2.5-9.3-7.1v-1.9c0-4.6,4-7.1,9.3-7.1,0,0,.9,0,.9,0ZM117.9,186.9v1.7c0,2,1.6,3.1,4.5,3.1h.7c2.8,0,4.5-1.1,4.5-3.1v-1.7c0-2-1.7-3.1-4.5-3.1h-.7c-2.8,0-4.5,1.1-4.5,3.1Z" />
+        </g>
+        <rect class="st0" x="143.9" y="153.8" width="15" height="13.9" rx="1.9" ry="1.9" />
+      </svg>
+    </div>
+    <div>Addis Ababa / Global</div>
+  </footer>
+
+  <div class="project-overlay">
+    <button class="close-overlay">Close <span>✕</span></button>
+    <div class="overlay-inner">
+      <div class="overlay-header">
+        <h2 class="reveal">Project Title</h2>
+      </div>
+      <div class="overlay-description">
+        <p class="reveal">Project description goes here with enough detail to explain the creative vision and execution.
+        </p>
+      </div>
+      <div class="overlay-gallery">
+        <!-- Gallery items injected via JS -->
+      </div>
+      <div class="overlay-footer">
+        <button class="next-project-btn">Next Project <span>→</span></button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Overlay Styles */
+    .project-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+      padding: 10rem 2rem 5rem;
+    }
+
+    .project-overlay.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .overlay-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .overlay-header h2 {
+      font-size: clamp(3rem, 12vw, 8rem);
+      margin-bottom: 4rem;
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+    }
+
+    .overlay-description {
+      max-width: 800px;
+      margin-bottom: 8rem;
+    }
+
+    .overlay-description p {
+      font-size: clamp(1.25rem, 3vw, 2rem);
+      line-height: 1.2;
+      color: var(--muted);
+    }
+
+    .overlay-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .gallery-item {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: var(--card);
+      overflow: hidden;
+    }
+
+    .gallery-item img,
+    .gallery-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-item:nth-child(3n+1) {
+      grid-column: span 2;
+      aspect-ratio: 16/9;
+    }
+
+    .close-overlay {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: none;
+      border: none;
+      color: var(--fg);
+      font-size: 1rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      z-index: 2001;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      transition: background 0.3s;
+      font-family: var(--sans);
+    }
+
+    .close-overlay:hover {
+      background: var(--card);
+    }
+
+    .overlay-footer {
+      margin-top: 8rem;
+      padding-top: 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+    }
+
+    .next-project-btn {
+      background: none;
+      border: none;
+      color: var(--fg);
+      font-size: clamp(2rem, 8vw, 5rem);
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      transition: opacity 0.3s, transform 0.3s;
+      font-family: var(--sans);
+    }
+
+    .next-project-btn span {
+      font-size: 0.8em;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .next-project-btn:hover {
+      opacity: 0.6;
+    }
+
+    .next-project-btn:hover span {
+      transform: translateX(20px);
+    }
+
+    @media (max-width: 768px) {
+      .overlay-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-item:nth-child(3n+1) {
+        grid-column: span 1;
+      }
+
+      .overlay-footer {
+        margin-top: 4rem;
+      }
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Reveal Animation on Scroll
+      const observerOptions = {
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+      // Parallax Scroll Effect
+      window.addEventListener('scroll', () => {
+        const scrollY = window.pageYOffset;
+        const projectItems = document.querySelectorAll('.project-item');
+
+        projectItems.forEach(item => {
+          const rect = item.getBoundingClientRect();
+          const bg = item.querySelector('.project-bg');
+
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            const shift = (rect.top / window.innerHeight) * 100;
+            bg.style.transform = `translateY(${shift * -0.2}%)`;
+          }
+        });
+      });
+
+      // Custom Cursor Movement
+      const cursor = document.querySelector('.cursor');
+      let mouseX = 0, mouseY = 0;
+      let cursorX = 0, cursorY = 0;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function animateCursor() {
+        cursorX += (mouseX - cursorX) * 0.2;
+        cursorY += (mouseY - cursorY) * 0.2;
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      // Accordion Interactive Logic
+      document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => {
+          const item = header.parentElement;
+          const isOpen = item.classList.contains('is-open');
+
+          // Close all other items
+          document.querySelectorAll('.accordion-item').forEach(otherItem => {
+            if (otherItem !== item) {
+              otherItem.classList.remove('is-open');
+            }
+          });
+
+          // Toggle current item
+          item.classList.toggle('is-open');
+        });
+      });
+
+      // Custom Cursor Hover Logic
+      // Updated to exclude specific links and buttons
+      const interactiveElements = document.querySelectorAll('a:not(.start-project-btn):not(.contact-links a), button, .accordion-header, .project-item');
+
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursor.style.width = '80px';
+          cursor.style.height = '100px';
+          cursor.style.background = 'rgba(209, 248, 17, 0.3)';
+          cursor.style.backdropFilter = 'blur(4px)';
+        });
+        el.addEventListener('mouseleave', () => {
+          cursor.style.width = '12px';
+          cursor.style.height = '15px';
+          cursor.style.background = 'var(--accent)';
+          cursor.style.backdropFilter = 'none';
+        });
+      });
+
+      // Project Data
+      const projectData = {
+        'samsung': {
+          title: 'Samsung',
+          description: 'A series of digital motion pieces exploring fluid physics and neon aesthetics for cutting-edge mobile interfaces and global product launches.',
+          assets: [
+            { type: 'video', src: 'https://framerusercontent.com/assets/9HOmhgCUWF44R4Otq9HXtjQzEw.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/oa4uEa1Rh8i3lZzI2pN5sWVghLA.png?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/ytNDN4mQrzpvaGcXXIcJw9l1DU.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/8edIeAdBMhARHQiaK7W5Gbt6jw.png?width=972' },
+            { type: 'image', src: 'https://framerusercontent.com/images/bZCEl58aAanwwKr5unVDEgFlAII.jpeg?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/9HOmhgCUWF44R4Otq9HXtjQzEw.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/oa4uEa1Rh8i3lZzI2pN5sWVghLA.png?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/ytNDN4mQrzpvaGcXXIcJw9l1DU.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/8edIeAdBMhARHQiaK7W5Gbt6jw.png?width=972' },
+            { type: 'image', src: 'https://framerusercontent.com/images/bZCEl58aAanwwKr5unVDEgFlAII.jpeg?width=1600' }
+          ]
+        },
+        'moschino': {
+          title: 'Moschino',
+          description: 'Art direction for the SS23 runway collection, blending surrealism with high-end fashion photography to redefine the brand\'s digital presence.',
+          assets: [
+            { type: 'image', src: 'https://framerusercontent.com/images/8edIeAdBMhARHQiaK7W5Gbt6jw.png?width=1600' },
+            { type: 'image', src: 'https://framerusercontent.com/images/bZCEl58aAanwwKr5unVDEgFlAII.jpeg?width=1600' },
+            { type: 'image', src: 'https://framerusercontent.com/images/oa4uEa1Rh8i3lZzI2pN5sWVghLA.png?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/9HOmhgCUWF44R4Otq9HXtjQzEw.mp4' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/ytNDN4mQrzpvaGcXXIcJw9l1DU.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/8edIeAdBMhARHQiaK7W5Gbt6jw.png?width=1600' },
+            { type: 'image', src: 'https://framerusercontent.com/images/bZCEl58aAanwwKr5unVDEgFlAII.jpeg?width=1600' },
+            { type: 'image', src: 'https://framerusercontent.com/images/oa4uEa1Rh8i3lZzI2pN5sWVghLA.png?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/9HOmhgCUWF44R4Otq9HXtjQzEw.mp4' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/ytNDN4mQrzpvaGcXXIcJw9l1DU.mp4' }
+          ]
+        },
+        'mastercard': {
+          title: 'Mastercard',
+          description: 'An immersive brand experience designed to visualize the speed, security, and global connectivity of modern digital payment systems.',
+          assets: [
+            { type: 'video', src: 'https://framerusercontent.com/assets/ytNDN4mQrzpvaGcXXIcJw9l1DU.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/oa4uEa1Rh8i3lZzI2pN5sWVghLA.png?width=1600' },
+            { type: 'image', src: 'https://framerusercontent.com/images/8edIeAdBMhARHQiaK7W5Gbt6jw.png?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/9HOmhgCUWF44R4Otq9HXtjQzEw.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/bZCEl58aAanwwKr5unVDEgFlAII.jpeg?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/ytNDN4mQrzpvaGcXXIcJw9l1DU.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/oa4uEa1Rh8i3lZzI2pN5sWVghLA.png?width=1600' },
+            { type: 'image', src: 'https://framerusercontent.com/images/8edIeAdBMhARHQiaK7W5Gbt6jw.png?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/9HOmhgCUWF44R4Otq9HXtjQzEw.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/bZCEl58aAanwwKr5unVDEgFlAII.jpeg?width=1600' }
+          ]
+        },
+        'nice': {
+          title: 'N.I.C.E.',
+          description: 'Minimalist visual identity for a creative collective, focusing on bold typography, monochromatic textures, and architectural design principles.',
+          assets: [
+            { type: 'image', src: 'https://framerusercontent.com/images/oa4uEa1Rh8i3lZzI2pN5sWVghLA.png?width=1600' },
+            { type: 'image', src: 'https://framerusercontent.com/images/bZCEl58aAanwwKr5unVDEgFlAII.jpeg?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/ytNDN4mQrzpvaGcXXIcJw9l1DU.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/8edIeAdBMhARHQiaK7W5Gbt6jw.png?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/9HOmhgCUWF44R4Otq9HXtjQzEw.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/oa4uEa1Rh8i3lZzI2pN5sWVghLA.png?width=1600' },
+            { type: 'image', src: 'https://framerusercontent.com/images/bZCEl58aAanwwKr5unVDEgFlAII.jpeg?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/ytNDN4mQrzpvaGcXXIcJw9l1DU.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/8edIeAdBMhARHQiaK7W5Gbt6jw.png?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/9HOmhgCUWF44R4Otq9HXtjQzEw.mp4' }
+          ]
+        },
+        'fanta': {
+          title: 'Fanta',
+          description: 'A vibrant campaign design and social media identity system celebrating the brand\'s fruity heritage through high-energy visual storytelling.',
+          assets: [
+            { type: 'image', src: 'https://framerusercontent.com/images/bZCEl58aAanwwKr5unVDEgFlAII.jpeg?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/9HOmhgCUWF44R4Otq9HXtjQzEw.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/oa4uEa1Rh8i3lZzI2pN5sWVghLA.png?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/ytNDN4mQrzpvaGcXXIcJw9l1DU.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/8edIeAdBMhARHQiaK7W5Gbt6jw.png?width=1600' },
+            { type: 'image', src: 'https://framerusercontent.com/images/bZCEl58aAanwwKr5unVDEgFlAII.jpeg?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/9HOmhgCUWF44R4Otq9HXtjQzEw.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/oa4uEa1Rh8i3lZzI2pN5sWVghLA.png?width=1600' },
+            { type: 'video', src: 'https://framerusercontent.com/assets/ytNDN4mQrzpvaGcXXIcJw9l1DU.mp4' },
+            { type: 'image', src: 'https://framerusercontent.com/images/8edIeAdBMhARHQiaK7W5Gbt6jw.png?width=1600' }
+          ]
+        }
+      };
+
+      // Modal Control
+      const overlay = document.querySelector('.project-overlay');
+      const overlayTitle = overlay.querySelector('.overlay-header h2');
+      const overlayDesc = overlay.querySelector('.overlay-description p');
+      const overlayGallery = overlay.querySelector('.overlay-gallery');
+      const closeBtn = overlay.querySelector('.close-overlay');
+      const nextBtn = overlay.querySelector('.next-project-btn');
+
+      let currentProjectId = null;
+
+      function openProject(id) {
+        const data = projectData[id];
+        if (!data) return;
+
+        currentProjectId = id;
+        overlayTitle.innerText = data.title;
+        overlayDesc.innerText = data.description;
+        overlayGallery.innerHTML = '';
+
+        data.assets.forEach(asset => {
+          const item = document.createElement('div');
+          item.className = 'gallery-item';
+
+          if (asset.type === 'video') {
+            item.innerHTML = `<video src="${asset.src}" autoplay loop muted playsinline></video>`;
+          } else {
+            item.innerHTML = `<img src="${asset.src}" alt="${data.title}">`;
+          }
+          overlayGallery.appendChild(item);
+        });
+
+        overlay.classList.add('visible');
+        overlay.scrollTo(0, 0);
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeProject() {
+        overlay.classList.remove('visible');
+        document.body.style.overflow = '';
+      }
+
+      function nextProject() {
+        const ids = Object.keys(projectData);
+        const currentIndex = ids.indexOf(currentProjectId);
+        const nextIndex = (currentIndex + 1) % ids.length;
+        const nextId = ids[nextIndex];
+
+        // Smoothly scroll back to top before changing content
+        overlay.scrollTo({ top: 0, behavior: 'smooth' });
+
+        setTimeout(() => {
+          openProject(nextId);
+        }, 300);
+      }
+
+      document.querySelectorAll('.project-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          openProject(item.dataset.id);
+        });
+      });
+
+      closeBtn.addEventListener('click', closeProject);
+      nextBtn.addEventListener('click', nextProject);
+
+      // Inquiry Form Control
+      const inquiryOverlay = document.querySelector('.inquiry-overlay');
+      const closeInquiryBtn = document.querySelector('.close-inquiry');
+
+      document.querySelectorAll('.open-inquiry-trigger, #open-inquiry').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          inquiryOverlay.classList.add('visible');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      closeInquiryBtn.addEventListener('click', () => {
+        inquiryOverlay.classList.remove('visible');
+        document.body.style.overflow = '';
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeProject();
+          inquiryOverlay.classList.remove('visible');
+          document.body.style.overflow = '';
+        }
+      });
+
+      // Header Scroll & Parallax Effect
+      const header = document.querySelector('header');
+      const heroBg = document.querySelector('.hero-bg');
+
+      window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+
+        // Header
+        if (scrolled > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+
+        // Hero Parallax
+        if (heroBg && scrolled < window.innerHeight) {
+          heroBg.style.transform = `scale(1.4) translateY(${scrolled * 0.4}px)`;
+        }
+      });
+    });
+  </script>
+
+  <div class="inquiry-overlay">
+    <button class="close-inquiry">✕</button>
+    <div class="inquiry-inner">
+      <form class="inquiry-form">
+        <h2>Start a conversation</h2>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Abebe Kebede" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="abebe@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" placeholder="Company Name" required>
+        </div>
+        <div class="form-group">
+          <label>Project Details</label>
+          <textarea rows="3" placeholder="What project do you have in mind?" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Expected Budget</label>
+          <select required>
+            <option value="" disabled selected>Select a range</option>
+            <option value="50-95k">50k ETB – 95k ETB</option>
+            <option value="95-145k">95k ETB – 145k ETB</option>
+            <option value="145-195k">145k ETB – 195k ETB</option>
+            <option value="195-250k">195k ETB – 250k ETB</option>
+            <option value="250k+">250k ETB+</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn">Send Inquiry <span>→</span></button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
